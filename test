@@ -9,9 +9,9 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_
              Creates a new thread of execution.
 
 
- int pthread_detach(pthread_t thread)
+int pthread_detach(pthread_t thread)
              Marks a thread for deletion.
 
 
-    int pthread_join(pthread_t thread, void **value_ptr)
+int pthread_join(pthread_t thread, void **value_ptr)
              Causes the calling thread to wait for the termination of the specified thread.

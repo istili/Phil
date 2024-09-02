@@ -15,7 +15,7 @@ NAME			=	philo
 
 CC				=	cc
 
-CFLAGS			=	-Wall -Wextra -Werror #-fsanitize=address -ggdb3
+CFLAGS			=	-Wall -Wextra -Werror -g3 #-fsanitize=address -ggdb3
 
 RM				=	rm -rf
 
@@ -34,7 +34,7 @@ $(NAME) : $(OBJS)
 	$(CC)  $(OBJS) -o $(NAME)
 
 %.o : %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -pthread
 
 
 clean :
