@@ -63,5 +63,7 @@ int		ft_puterror(void);
 int		ft_strcmp(const	char *s1, const	char *s2);
 int		ft_atoi(const char *str);
 void	*ft_memset(void *b, int c, size_t len);
+void    ft_destroy(t_main *p, int i, int j, int indx);
+void    destroy_forks(t_main *p, int indx);
 
 #endif

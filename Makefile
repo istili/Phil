@@ -22,7 +22,7 @@ RM				=	rm -rf
 HEADER			=	philo.h
 
 
-FILE			=	philo.c split.c libc.c atoi.c \
+FILE			=	philo.c split.c libc.c atoi.c utils.c\
 
 
 OBJS			=	$(FILE:.c=.o)

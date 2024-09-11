@@ -139,29 +139,51 @@ int	l7day(t_main *p)
 	}
 }
 
-void	philo(t_main *p)
+int	allocating(t_main *p)
+{
+	p->forks = malloc(sizeof(pthread_mutex_t) * p->n_philo);
+	if (!p->forks)
+	{
+		printf("error allocating\n");
+		return (1);
+	}
+	ft_memset(p->forks, 0, sizeof(pthread_mutex_t));
+	p->arr = malloc(sizeof(t_philo) * p->n_philo);
+	if (!p->arr)
+	{
+		printf("error allocating\n");
+		ft_destroy(p, 0, 0, 0);
+		return(1);
+	}
+	ft_memset(p->arr, 0, sizeof(t_philo));
+	return (0);
+}
+
+int	creating_mutexs(t_main *p)
 {
 	int				i;
 
 	i = 0;
-	p->forks = malloc(sizeof(pthread_mutex_t) * p->n_philo);
-	if (!p->forks)
-		return ;
-	ft_memset(p->forks, 0, sizeof(pthread_mutex_t));
-	p->arr = malloc(sizeof(t_philo) * p->n_philo);
-	if (!p->arr)
-		return ;
-	ft_memset(p->arr, 0, sizeof(t_philo));
 	if (pthread_mutex_init(&p->int_mutex, NULL) != 0)
 	{
+		ft_destroy(p, 1, 0, i);
 		printf("error int mutex\n");
-		return ;
+		return (1);
 	}
 	if (pthread_mutex_init(&p->print_mutex, NULL) != 0)
 	{
+		ft_destroy(p, 2, 0, i);
 		printf("error print mutex\n");
-		return ;
+		return (1);
 	}
+	return (0);
+}
+
+int	init_philos(t_main *p)
+{
+	int				i;
+
+	i = 0;
 	while (p->n_philo > i)
 	{
 		p->arr[i].ptr = p;
@@ -174,50 +196,73 @@ void	philo(t_main *p)
 		p->arr[i].is_full = 0;
 		if (pthread_mutex_init(&p->forks[i], NULL) != 0)
 		{
+			ft_destroy(p, 3, 1, i);
 			printf("error mutex %d\n", i);
-			return ;
+			return (1);
 		}
 		if (pthread_mutex_init(&p->arr[i].time_mutex, NULL) != 0)
 		{
+			ft_destroy(p, 3, 2, i);
 			printf("error time mutex %d\n", i);
-			return ;
+			return (1);
 		}
 		if (pthread_mutex_init(&p->arr[i].meals_mutex, NULL) != 0)
 		{
+			ft_destroy(p, 3, 3, i);
 			printf("error meals mutex %d\n", i);
-			return ;
+			return (1);
 		}
 		i++;
 	}
-	p->start = 0;
+	return (0);
+}
+
+int	creating_philos(t_main *p)
+{
+	int	i;
+
 	i = 0;
 	while (p->n_philo > i)
 	{
 		if (pthread_create(&p->arr[i].th, NULL, fthread, (void *)&p->arr[i]) != 0)
 		{
 			printf("error creating thread %d\n", i);
-			return ;
+			ft_destroy(p, 3, 3, p->n_philo);
+			return (1);
 		}
 		i++;
 	}
+	return (0);
+}
+
+void	philo(t_main *p)
+{
+	int				i;
+
+	i = 0;
+	if (allocating(p))
+		return ;
+	if (creating_mutexs(p))
+		return ;
+	if (init_philos(p))
+		return ;
+	p->start = 0;
+	if (creating_philos(p))
+		return ;
 	update_time(&p->int_mutex, &p->start_time, time_in_ms());
 	update_int(&p->int_mutex, &p->start, 1);
 	i = 0;
 	while (p->n_philo > i)
 	{
 		if (pthread_detach(p->arr[i].th) != 0)
+		{
+			ft_destroy(p, 3, 3, p->n_philo);
 			return ;
+		}
 		i++;
 	}
 	l7day(p);
-	i = 0;
-	while (p->n_philo > i)
-	{
-		pthread_mutex_destroy(&p->forks[i]);
-		i++;
-	}
-	free(p->forks);
-	free(p->arr);
+	ft_destroy(p, 3, 3, p->n_philo);
 }
 
 int	count_args(char **args)
