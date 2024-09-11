@@ -6,7 +6,7 @@
 /*   By: istili <istili@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 21:16:42 by istili            #+#    #+#             */
-/*   Updated: 2024/08/26 06:13:07 by istili           ###   ########.fr       */
+/*   Updated: 2024/09/11 09:04:24 by istili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,47 +66,6 @@ char	*ft_strjoin(char *line, char *bufr)
 	if (line)
 		free(line);
 	return (s);
-}
-
-int	ft_puterror(void)
-{
-	write(2, "Error\n", 6);
-	return (1);
-}
-
-int	is_full_space(char *str)
-{
-	while (*str == '\t' || *str == ' ')
-		str++;
-	if (*str != '\0')
-		return (0);
-	return (1);
-}
-
-void	free_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
-int	args(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (s[i] == '+')
-		i++;
-	if (!s[i])
-		return (0);
-	while (s[i] >= '1' && s[i] <= '9')
-		i++;
-	if (s[i] == '\0')
-		return (1);
-	return (0);
 }
 
 int	ft_strcmp(const	char *s1, const	char *s2)

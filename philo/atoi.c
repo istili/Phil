@@ -6,7 +6,7 @@
 /*   By: istili <istili@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 06:05:34 by istili            #+#    #+#             */
-/*   Updated: 2024/08/26 06:34:07 by istili           ###   ########.fr       */
+/*   Updated: 2024/09/11 11:52:17 by istili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_atoi(const char *str)
 		nb = nb * 10 + str[i++] - '0';
 		if ((nb > INT_MAX && sign == 1)
 			|| (nb > -(long)(INT_MIN) && sign == -1))
-			ft_puterror();
+			return (-1);
 	}
 	return (nb * sign);
 }

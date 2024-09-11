@@ -6,7 +6,7 @@
 #    By: istili <istili@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/17 09:53:55 by istili            #+#    #+#              #
-#    Updated: 2024/08/26 06:34:20 by istili           ###   ########.fr        #
+#    Updated: 2024/09/11 10:56:31 by istili           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ RM				=	rm -rf
 HEADER			=	philo.h
 
 
-FILE			=	philo.c split.c libc.c atoi.c utils.c\
+FILE			=	watcher.c split.c libc.c atoi.c destroy.c parsing.c main.c philo.c helpers.c routine.c \
 
 
 OBJS			=	$(FILE:.c=.o)
